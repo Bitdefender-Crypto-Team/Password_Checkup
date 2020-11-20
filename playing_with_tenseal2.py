@@ -31,16 +31,16 @@ db_enc = db.reshape((4,4))
 
 #CLIENTUL: QUERY
 #indexul pe care clientul vrea sa il ceara e encodat ca un vector de selectie, de lungime cat baza de date;
-#in cazul de aici, vrea sa selecteze db[k] pt k=1
+#in cazul de aici, vrea sa selecteze db[k] pt k=2
 
 #pt varianta cu 1 DIMENSIUNE (care e cea mai simpla)
-select_vector = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+select_vector = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 #pt varianta cu 2 DIMENSIUNI adica baza de date e construita ca matrice sqrt(n) * sqrt(n)
-#k = 1 = 0*sqrt(n) + 1, deci poz care ne intereseaza din matrice este [i, j] = [0, 1]
+#k = 2 = 0*sqrt(n) + 2, deci poz care ne intereseaza din matrice este [i, j] = [0, 1]
 #select_vector1 encodeaza i si select_vector2 encodeaza j, amandoi sunt de lungime sqrt(n)
 select_vector1 = [1, 0, 0, 0]
-select_vector2 = [0, 1, 0, 0]
+select_vector2 = [0, 0, 1, 0]
 
 #-------------------------------------------------------------
 #PIR PROTOCOL-LIKE USING CKKS SCHEME
