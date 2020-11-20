@@ -27,6 +27,7 @@ def indices_of_database_entry(k, m):
 #BAZA DE DATE
 db = np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])  # 16 elem pe 4 biti
 #se foloseste in protocol PIR cu 2 DIMENSIUNI BAZA DE DATE STOCATA CA MATRICE sqrt(n)xsqrt(n)
+#aici db_enc e de fapt db rescris ca matrice 4x4
 db_enc = db.reshape((4,4))
 
 #CLIENTUL: QUERY
@@ -38,7 +39,7 @@ select_vector = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 #pt varianta cu 2 DIMENSIUNI adica baza de date e construita ca matrice sqrt(n) * sqrt(n)
 #k = 2 = 0*sqrt(n) + 2, deci poz care ne intereseaza din matrice este [i, j] = [0, 1]
-#select_vector1 encodeaza i si select_vector2 encodeaza j, amandoi sunt de lungime sqrt(n)
+#select_vector1 encodeaza i si select_vector2 encodeaza j, amandoi vectorii sunt de lungime sqrt(n)
 select_vector1 = [1, 0, 0, 0]
 select_vector2 = [0, 0, 1, 0]
 
@@ -58,7 +59,8 @@ query2 = ts.ckks_vector(context2, select_vector)
 response2 = query2.dot(db)
 #CE EXTRAGE CLIENTUL DIN RASPUNSUL PRIMIT
 verdict2 = response2.decrypt()[0] % 2 ** 4    # decrypt returneaza vector cu 1 elem aici, am nevoie de element
-print ("clientul a decriptat raspunsul la " + str(verdict2))
+#probabil modulo 2**4 e redundant aici, dar pt siguranta aplicam modulo, asa fac si in paper
+print ("clientul a decriptat raspunsul la " + str(verdict2))  #~2, cat e query-ul encodat in selection_vectors
 
 #2 DIMENSIUNI: clientul da criptari pt 2 vectori de tip selection_vector, de lungime sqrt(n), ce encodeaza i, j, unde k=i*sqrt(n)+j
 #QUERY TRIMIS DE CLIENT
@@ -71,7 +73,7 @@ print ("coloana din matricea-baza de date, cea care contine query-ul"+str(c.decr
 response2_ = c.dot(query21)
 #CE EXTRAGE CLIENTUL DIN RASPUNSUL PRIMIT
 verdict2_ = response2_.decrypt()[0] % 2 ** 4
-print ("clientul a decriptat raspunsul la " + str(verdict2_))
+print ("clientul a decriptat raspunsul la " + str(verdict2_)) #~2, cat e query-ul encodat in selection_vectors
 
 #-----------------------------------------------------------------------
 #PIR PROTOCOL-LIKE USING BFV SCHEME
